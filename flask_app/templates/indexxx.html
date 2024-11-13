@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Attack Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Cyber Attack Prediction</h1>
+        <form id="prediction-form" class="form-container">
+            <div class="input-field">
+                <label for="tcp_attack">TCP Attack:</label>
+                <input type="number" id="tcp_attack" name="tcp_attack" placeholder="e.g., 0 or 1" required>
+            </div>
+            <div class="input-field">
+                <label for="tcp_seq">TCP Sequence Number:</label>
+                <input type="number" id="tcp_seq" name="tcp_seq" placeholder="Enter sequence number" required>
+            </div>
+            <div class="input-field">
+                <label for="frame_len">Frame Length:</label>
+                <input type="number" id="frame_len" name="frame_len" placeholder="Enter frame length" required>
+            </div>
+            <div class="input-field">
+                <label for="tcp_window_size">TCP Window Size:</label>
+                <input type="number" id="tcp_window_size" name="tcp_window_size" placeholder="Enter window size" required>
+            </div>
+            <div class="input-field">
+                <label for="tcp_flags">TCP Flags:</label>
+                <input type="number" id="tcp_flags" name="tcp_flags" placeholder="Enter flags value" required>
+            </div>
+            <button type="button" class="btn" onclick="makePrediction()">Predict</button>
+        </form>
+
+        <div id="result" class="result-container">
+            <div id="prediction-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        function makePrediction() {
+            const form = document.getElementById('prediction-form');
+            const formData = new FormData(form);
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultContainer = document.getElementById('result');
+                const predictionResult = document.getElementById('prediction-result');
+                
+                resultContainer.classList.add('show');
+                predictionResult.classList.remove('attack', 'no-attack');  // Clear previous styles
+                
+                if (data.prediction === 'Attack Detected') {
+                    predictionResult.classList.add('attack');
+                    predictionResult.textContent = data.prediction;
+                } else {
+                    predictionResult.classList.add('no-attack');
+                    predictionResult.textContent = data.prediction;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

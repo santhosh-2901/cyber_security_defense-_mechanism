@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Security Anomaly Detection</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="card mt-5 shadow-lg">
+        <div class="card-body">
+            <h1 class="text-center text-primary">Anomaly Detection with XGBoost</h1>
+            <p class="text-center">Upload your dataset to detect anomalies in cyber traffic.</p>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form action="/predict" method="POST" enctype="multipart/form-data" class="text-center">
+                <div class="form-group">
+                    <input type="file" name="file" class="form-control-file" accept=".csv" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">Upload and Predict</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="card mt-5 shadow-lg">
+        <div class="card-body">
+            <h2 class="text-center text-success">Prediction Results</h2>
+            <p class="text-center font-weight-bold">Model Accuracy: {{ accuracy|round(2) * 100 }}%</p>
+            <div class="table-responsive">
+                {{ data|safe }}
+            </div>
+            <div class="text-center mt-3">
+                <a href="/" class="btn btn-secondary">Go Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
